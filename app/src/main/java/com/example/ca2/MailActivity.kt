@@ -1,11 +1,10 @@
 package com.example.ca2
-
+import SQLDBHelper
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +23,12 @@ class MailActivity : AppCompatActivity() {
             insets
         }
 
+        // shared pref for storing sender email
+        val sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE)
+        val sender = sharedPref.getString("sender", "")
+        val from = findViewById<EditText>(R.id.from)
+        from.setText(sender)
+
         val back = findViewById<Button>(R.id.back)
         back.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -38,11 +43,34 @@ class MailActivity : AppCompatActivity() {
             val title = findViewById<EditText>(R.id.title).text.toString()
             val message = findViewById<EditText>(R.id.message).text.toString()
             val db = SQLDBHelper(this)
-            db.addMail(Mail(from, to, cc, bcc, title, message))
 
-            Toast.makeText(this, "com.example.ca2.Mail sent", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            if (from.isEmpty() || to.isEmpty() || title.isEmpty() || message.isEmpty()) {
+                makeToast(this, "Please make sure all the necessary details are filled")
+            }
+
+            else if (!validateSender(from)) {
+                makeToast(this, "Please enter a valid Sender address")
+            }
+
+            else if (!validate(to)) {
+                makeToast(this, "Please enter a valid Receiver address")
+            }
+
+            else if (cc.isNotEmpty() && !validate(bcc)) {
+                makeToast(this, "Please enter a valid BCC address")
+            }
+            else if (cc.isNotEmpty() && !validate(cc)) {
+                makeToast(this, "Please enter a valid CC address")
+            }
+
+            else {
+                db.addMail(Mail(from, to, cc, bcc, title, message))
+                sharedPref.edit().putString("sender", from).apply()
+                Toast.makeText(this, "Mail Successfully sent to $to", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 }

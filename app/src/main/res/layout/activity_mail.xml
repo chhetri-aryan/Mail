@@ -10,35 +10,30 @@
     tools:context=".MailActivity">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/back"
-            android:layout_width="68dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="340dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginStart="10dp"
             android:drawableStart="@drawable/baseline_arrow_back_24"
-            android:textAlignment="viewEnd"
             app:icon="@drawable/baseline_arrow_back_24" />
 
         <Button
             android:id="@+id/send"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="6dp"
+            android:layout_gravity="end"
+            android:layout_marginStart="270dp"
+            android:layout_marginEnd="30dp"
             android:textAlignment="viewEnd"
+            android:textColorLink="#9C27B0"
             app:icon="@drawable/baseline_send_24" />
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/from"

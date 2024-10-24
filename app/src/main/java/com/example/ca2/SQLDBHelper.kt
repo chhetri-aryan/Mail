@@ -1,5 +1,4 @@
-package com.example.ca2
-
+import com.example.ca2.Mail
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
@@ -62,12 +61,14 @@ class SQLDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         val cursor: Cursor = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
         if (cursor.moveToFirst()) {
             do {
-              result.add(Mail(cursor.getString(cursor.getColumnIndex(COLUMN_FROM)),
-                      cursor.getString(cursor.getColumnIndex(COLUMN_TO)),
-                      cursor.getString(cursor.getColumnIndex(COLUMN_CC)),
-                      cursor.getString(cursor.getColumnIndex(COLUMN_BCC)),
-                      cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
-                      cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE))))
+                result.add(
+                    Mail(cursor.getString(cursor.getColumnIndex(COLUMN_FROM)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_TO)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_CC)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_BCC)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_MESSAGE)))
+                )
             } while (cursor.moveToNext())
         }
         cursor.close()
